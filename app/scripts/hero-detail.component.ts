@@ -16,10 +16,8 @@ export class HeroDetailComponent implements OnInit {
   navigated = false; // true if navigated here
 
   constructor(
-    heroService: HeroService,
-    routeParams: RouteParams) {
-      this.heroService = heroService;
-      this.routeParams = routeParams;
+    private heroService: HeroService,
+    private routeParams: RouteParams) {
   }
 
   ngOnInit() {

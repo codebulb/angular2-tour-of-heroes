@@ -32,24 +32,14 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-    // npm install --save-dev grunt-babel
-    babel: {
-      options: {
-        sourceMap: true
-        // see .babelrc: npm install --save-dev babel-plugin-angular2-annotations babel-plugin-transform-decorators-legacy babel-plugin-transform-class-properties babel-plugin-transform-flow-strip-types babel-preset-es2015
-        // as in http://stackoverflow.com/a/37041595
-      },
-      dist: {
-        files: [
-          {
-            expand: true,
-            cwd: 'app/scripts',
-            src: ['**/*.js'],
-            dest: 'dist/scripts'
-          }
-        ]
-      }
-
+    // npm install --save-dev grunt-ts
+    ts: {
+        default : {
+            tsconfig: true,
+            src: ["app/scripts/**/*.ts"],
+            // as in https://www.npmjs.com/package/grunt-ts#dest
+            outDir: 'dist/scripts'
+        }
     },
 
     // Project settings
@@ -59,7 +49,7 @@ module.exports = function (grunt) {
     watch: {
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.*'],
-        tasks: ['babel', 'newer:jshint:all', 'newer:jscs:all'],
+        tasks: ['ts', 'newer:jshint:all', 'newer:jscs:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -425,13 +415,16 @@ module.exports = function (grunt) {
     }
   });
 
+  // as in https://www.typescriptlang.org/docs/handbook/integrating-with-build-tools.html
+  grunt.loadNpmTasks("grunt-ts");
+
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
-      'babel',
+      'ts',
       'clean:server',
       'concurrent:server',
       'postcss:server',
@@ -471,7 +464,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'babel',
+    'ts',
     'newer:jshint',
     'newer:jscs',
     'test',
