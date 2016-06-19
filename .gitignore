@@ -1,0 +1,10 @@
+dist
+app/**/*.map
+node_modules
+jspm_packages
+bower_components
+.tmp
+.tscache
+typings
+app/**/.baseDir.ts
+**/*npm-debug.log.*
